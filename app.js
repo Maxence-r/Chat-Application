@@ -29,7 +29,7 @@ app.use(checkLogin);
 app.use(loginRouter);
 app.get('/', (req, res) => {
     if(req.logged) return res.redirect('/chat');
-    res.sendFile('index.html', {root: './views'});
+    res.sendFile('index.html', {root: './views/login-signup'});
 });
 app.use('/conv', ConvManager);
 app.use('/messages', MessagesManager);
@@ -37,7 +37,7 @@ app.use('/infos', getInfos);
 app.use('/signup', signupRouter);
 app.get('/chat', (req, res) => {
     if(!req.logged) return res.redirect('/');
-    res.sendFile('chat.html', {root: './views'});
+    res.sendFile('chat.html', {root: './views/dashboard'});
 });  
 
 module.exports = app;

@@ -4,13 +4,15 @@ const bcrypt = require('bcrypt');
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
     console.log(req.body);
     User.findOne({
-            pseudo: req.body.pseudo
-        } || {
+        $or: [{
+            pseudo: req.body.email
+        }, {
             email: req.body.email
-        })
+        }]
+    })
         .then(user => {
             if (!user) {
                 console.log('User not found');

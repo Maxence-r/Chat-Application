@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../login-signup/style.css">
+    <link rel="icon" type="image/x-icon" href="./assets/default.ico">
+    <title>Login</title>
+</head>
+<body class="login body">
+    <section class="credentials">
+        <div class="selector">
+            <p>Signin</p>
+            <p>Signup</p>
+            <div class="indicator goodbyslide"></div>
+        </div>
+        <div id="login" class="login active">
+            <p>Pseudo / Email Adress</p>
+            <input type="email" name="email" id="email" placeholder="Enter your email or pseudo">
+            <p>Password</p>
+            <input type="password" name="password" id="password" placeholder="Enter your password">
+            <button onclick="login()" id="login" type="button" class="button"><span class="button__text">Login</span></button>
+        </div>
+        <div class="signup goodbye">
+            <p>Username</p>
+            <input type="text" name="username" id="username-signup" placeholder="Enter your username">
+            <p>Avatar</p>
+            <input type="text" name="avatar" id="avatar-signup" placeholder="Enter your avatar url">
+            <p>Email Adress</p>
+            <input type="email" name="email" id="email-signup" placeholder="Enter your email adress">
+            <p>Password</p>
+            <input type="password" name="password" id="password-signup" placeholder="Enter your password">
+            <button onclick="signup()" style="color: black; background: linear-gradient(90.55deg, #FFFFFF 0%, rgba(248, 248, 248, 0.72) 100%);border: 1px solid #DDDDDD;" id="signup" type="button" class="button"><span class="button__text">Signup</span></button>
+        </div>
+    </section>
+    <section class="image">
+        <img class="preview" src="./assets/img.png" alt="default">
+    </section>
+</body>
+<script src="../login-signup/script.js"></script>
+</html>

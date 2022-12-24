@@ -12,16 +12,10 @@ router.post('/', antidouble, (req, res) => {
 	const name = decodedToken.username;
 	const avatar = decodedToken.avatar;
 	const conversation = new Conversation({
-		creator: {
-			id: userId,
-			name: name,
-			avatar: avatar,
-		},
-		participant: {
-			id: req.body.id,
-			name: req.body.name,
-			avatar: req.body.avatar,
-		}, 
+		creator: userId,
+        participant: req.body.participant,
+        creatorname: req.body.creatorname,
+        participantname: req.body.participantname
 	});
 	conversation.save()
 		.then(() => res.status(201).json({

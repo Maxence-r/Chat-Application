@@ -1,25 +1,10 @@
 const mongoose = require("mongoose");
-const conversationSchema = mongoose.Schema(
-  {
-    creator: {
-      id: String,
-      name: String,
-      avatar: String,
-    }, 
-    participant: {
-      id: String,
-      name: String,
-      avatar: String,
-    },
-    last_updated: {
-      type: Date,
-      default: Date.now
-    }
-  },
-  {
-    timestamps: true,
-  }
-);
+const conversationSchema = mongoose.Schema({
+  creator: { type: String, required: true},
+  participant: { type: String, required: true },
+  creatorname: { type: String, required: true},
+  participantname: { type: String, required: true },
+});
 
 const Conversation = mongoose.model("Conversation", conversationSchema);
 
