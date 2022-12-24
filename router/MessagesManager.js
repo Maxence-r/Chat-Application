@@ -8,7 +8,7 @@ router.post('/', (req, res) => {
     Message.find({
             convId: req.body.convId
         }).sort([
-            ['_id', -1]
+            ['_id', +1]
         ])
         .then(messages => res.status(200).json(messages))
         .catch(error => res.status(400).json({
@@ -28,10 +28,10 @@ router.post('/post', antiSpam, (req, res) => {
     });
     message.save()
         .then(() => res.status(201).json({
-            message: 'Message envoyé !'
+            message: `Message envoyé ! convId: ${req.body.convId}`
         }))
         .catch(error => res.status(500).json({
-            error
+            error: error
         }));
     global.io.emit(`${req.body.convId}`, {
         message: {

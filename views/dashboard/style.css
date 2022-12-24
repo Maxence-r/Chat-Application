@@ -1,0 +1,432 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
+
+
+* {
+	font-family: sora;
+	box-sizing: border-box;
+	margin: 0;
+	scroll-behavior: smooth;
+}
+
+:root {
+    --primary: #FAFAFA;
+    --secondary: #ffffff;
+    --text: #5f5f5f;
+    --border: #f4f4f4;
+    --gradient: linear-gradient(90.55deg, #2F69FE 0%, rgba(47, 105, 254, 0.72) 100%);
+}
+
+body.dashboard {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--primary);
+}
+
+section.message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 28%;
+    height: 100vh;
+    min-width: 375px;
+    background: var(--primary);
+    border-right: 1px solid var(--border);
+}
+
+section.message > input {
+    width: 85%;
+    height: 56px;
+    border: none;
+    outline: none;
+    background: var(--secondary);
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 300;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+input::placeholder {
+    color: var(--text);
+  }
+
+div.conversations {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    height: 100%;
+    margin-top: 20px;
+}
+
+div.conversation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    min-height: 80px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    background: var(--secondary);
+    animation: fadeIn 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+img.profile-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    margin-right: 12px;
+    margin-left: 15px;
+    object-fit: cover;
+}
+
+div.conversation > h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+h2 > span {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text);
+}
+
+div.right-infos {
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+div.right-infos > p {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text);
+}
+
+div.ping {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    font-size: 11px;
+    height: 20px;
+    color: white;
+    border-radius: 50%;
+    background: var(--gradient);
+    margin-left: auto;
+}
+
+div.tool {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100px;
+    padding: 0 30px;
+    background: var(--secondary);
+    margin-top: auto;
+    z-index: 1;
+}
+
+div.tool > img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+div.tool > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: white;
+    font-size: 50px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-weight: 100;
+    background: var(--gradient);
+    cursor: pointer;
+}
+
+section.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 72%;
+    height: 100vh;
+    background: var(--primary);
+}
+
+div.infos > p {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--text);
+}
+
+div.infos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+div.infos > img {
+    width: 30px;
+    margin-right: 5px;
+}
+
+div.message-content {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 30px;
+}
+
+div.header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 80px;
+    padding: 0 30px;
+    background: var(--secondary);
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 5px;
+    box-shadow: 0px -6px 35px 2px rgba(0, 0, 0, 0.03);
+}
+
+div.user-infos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-left: 15px;
+}
+
+img.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+h1.username {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 20px;
+}
+
+h1.username > span {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text);
+}
+
+div.status {
+    background-color: green;
+    width: 20px;
+    height: 20px;
+}
+
+div.messages {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+div.send {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100px;
+    padding: 0 30px;
+    background: var(--secondary);
+    border-radius: 0 0 10px 10px;
+}
+
+div.send > input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 60px;
+    padding: 0 30px;
+    background: var(--primary);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 300;
+    border: none;
+    outline: none;
+}
+
+div.other-message {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 40%;
+    background-color: var(--secondary);
+    margin-bottom: 8px;
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 10px 10px 10px 0;
+    animation: other-message 0.5s;
+}
+
+@keyframes other-message {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+div.my-message {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    margin-left: auto;
+    max-width: 40%;
+    background: var(--gradient);
+    margin-bottom: 8px;
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 10px 10px 0 10px;
+    animation: my-message 0.5s;
+}
+
+@keyframes my-message {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+div.other-message > p {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text);
+    word-break: break-all;
+    width: 100%;
+}
+
+div.my-message > p {
+    font-size: 16px;
+    font-weight: 300;
+    color: white;
+    word-break: break-all;
+    width: 100%;
+}
+
+.active-section {
+    animation: active-section 1s;
+    animation-fill-mode: forwards;
+}
+
+.goodbye-section {
+    animation: goodbye-section 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes goodbye-section {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes active-section {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@media screen and (max-width: 900px) {
+    input.search {
+        width: 92% !important;
+    }
+    section.message {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+    }
+    section.content {
+        position: absolute;
+        width: 100%;
+        z-index: 1;
+    }
+    div.tool {
+        border-radius: 40px 40px 0 0;
+        box-shadow: 0px -6px 35px 2px rgba(0, 0, 0, 0.03);
+    }
+    div.send {
+        border-radius: 0 0 40px 40px;
+        box-shadow: 0px -6px 35px 2px rgba(0, 0, 0, 0.03);
+    }
+    div.conversations {
+        width: 92%;
+    }
+}
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #808080 transparent;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #808080;
+    border-radius: 6px;
+    border: 0px solid transparent;
+  }

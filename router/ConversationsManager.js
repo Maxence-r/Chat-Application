@@ -3,8 +3,9 @@ const router = express.Router();
 const Conversation = require('../models/conversations');
 const jwt = require('jsonwebtoken');
 const antidouble = require('../middlewares/antidouble');
+const participantinfos = require('../middlewares/participantinfos');
 
-router.post('/', antidouble, (req, res) => {
+router.post('/', participantinfos, antidouble, (req, res) => {
 	const token = req.cookies.token;
 	if (!token) return req.logged = false, res.redirect('/');
 	const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
@@ -13,9 +14,11 @@ router.post('/', antidouble, (req, res) => {
 	const avatar = decodedToken.avatar;
 	const conversation = new Conversation({
 		creator: userId,
-        participant: req.body.participant,
-        creatorname: req.body.creatorname,
-        participantname: req.body.participantname
+        creatorname: name,
+		creatoravatar: avatar || 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+		participant: req.body.participant,
+        participantname: req.body.participantname, 
+		participantavatar: req.body.participantavatar
 	});
 	conversation.save()
 		.then(() => res.status(201).json({

@@ -38,4 +38,26 @@ router.get('/users', (req, res) => {
 });
 
 
+router.post('/ui', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return req.logged = false, res.redirect('/');
+    User.findOne({
+            _id: req.body.id
+        })
+        .then(user => {
+            if (!user) {
+                res.status(400).json({ message: 'Utilisateur non trouvé !' });
+            }
+            res.json({
+                pseudo: user.pseudo,
+                id: user._id,
+                email: user.email,
+                avatar: user.avatar
+            });
+        })
+        .catch(error => res.status(500).json({
+            error
+        }));
+});
+
 module.exports = router;

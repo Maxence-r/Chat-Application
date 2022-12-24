@@ -8,8 +8,31 @@
     <link rel="icon" type="image/x-icon" href="./assets/default.ico">
     <title>Dashboard</title>
 </head>
-<body>
-    <h1>Connected</h1>
+<body class="dashboard">
+    <section class="message">
+        <input class="search" type="text" name="message" id="message" placeholder="Search conversatation">
+        <div class="conversations">
+        </div>
+    <div class="tool">
+        <div onclick="newconv()">+</div>
+    </div>
+    </section>
+    <section class="content goodbye-section">
+        <div class="header">
+            <img onclick="contentClose()" src="../assets/back.svg" alt="back">
+            <div class='user-infos'>
+                <img style="cursor: pointer;" class="avatar" src="../assets/default.png" alt="default">
+                <h1 class="username">Username<br><span>Online</span></h1>
+            </div>
+            <img src="../assets/call.svg" alt="more">
+        </div>
+        <div class="messages">
+
+        </div>
+        <div class="send">
+            <input class="send-message" type="text" name="message" id="message" placeholder="Type a message">
+        </div>
+    </section>
 </body>
 <script src="../dashboard/script.js"></script>
 </html>
