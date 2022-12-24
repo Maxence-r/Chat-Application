@@ -60,6 +60,7 @@ div.conversations {
     width: 85%;
     height: 100%;
     margin-top: 20px;
+    overflow-y: scroll;
 }
 
 div.conversation {
@@ -406,6 +407,9 @@ div.my-message > p {
     }
     div.conversations {
         width: 92%;
+    }
+    div.my-message, div.other-message {
+        max-width: 70%;
     }
 }
 
