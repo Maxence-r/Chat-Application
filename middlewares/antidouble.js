@@ -16,7 +16,7 @@ const antidouble = (req, res, next) => {
 		.then((conversations) => {
 			if (conversations != "") {
 				res.status(400).json({
-					message: "Conversation déjà existante !",
+					error: "Conversation déjà existante !",
 				});
 			} else {
 			next();

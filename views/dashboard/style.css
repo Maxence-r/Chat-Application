@@ -144,6 +144,7 @@ div.tool {
     background: var(--secondary);
     margin-top: auto;
     z-index: 1;
+    box-shadow: -20px -6px 35px 2px rgb(0 0 0 / 3%);
 }
 
 div.tool > img {
@@ -175,6 +176,7 @@ section.content {
     width: 72%;
     height: 100vh;
     background: var(--primary);
+    transform: translateY(100%);
 }
 
 div.infos > p {
@@ -304,6 +306,7 @@ div.other-message {
     padding: 12px;
     border-radius: 10px 10px 10px 0;
     animation: other-message 0.5s;
+    margin-right: auto;
 }
 
 @keyframes other-message {
@@ -365,6 +368,26 @@ div.my-message > p {
     animation-fill-mode: forwards;
 }
 
+div.send-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: var(--gradient);
+    background-color: var(--primary);
+    background-image: url(../assets/send.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
 @keyframes goodbye-section {
     0% {
         transform: translateY(0%);
@@ -417,12 +440,12 @@ div.my-message > p {
   /* Firefox */
   * {
     scrollbar-width: auto;
-    scrollbar-color: #808080 transparent;
+    scrollbar-color: var(--border) transparent;
   }
 
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
-    width: 4px;
+    width: 2px;
   }
 
   *::-webkit-scrollbar-track {
@@ -430,7 +453,7 @@ div.my-message > p {
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: #808080;
+    background-color: var(--border);
     border-radius: 6px;
     border: 0px solid transparent;
   }

@@ -1,54 +1,98 @@
-function getConv() {
-    fetch('/conv')
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(element => {
-            let conv = document.createElement('div');
-            conv.classList.add('conversation');
-            if (localStorage.getItem('id') == element.participant) {
-                fetch('/infos/ui', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        id: `${element.creator}`
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    conv.innerHTML = `
-                    <img class="profile-img" src="${data.avatar}" alt="default">
-                    <h2>${data.pseudo}<br><span>Last message here</span></h2>
-                    <div class="right-infos"><p>9:34PM</p><div class="ping">3</div></div>
-                    `
-                })
-            } else {
-                fetch('/infos/ui', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        id: `${element.participant}`
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    conv.innerHTML = `
-                    <img class="profile-img" src="${data.avatar || "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"}" alt="default">
-                    <h2>${data.pseudo}<br><span>Last message here</span></h2>
-                    <div class="right-infos"><p>9:34PM</p><div class="ping">3</div></div>
-                    `
-                })
-            }
-            conv.setAttribute('id', `${element._id}`)
-            conv.style.animationDelay = `${data.indexOf(element) * 0.2}s`
-            document.querySelector('.conversations').appendChild(conv);
+async function getConv() {
+
+    const response = await fetch('/conv');
+    const data = await response.json();
+  
+    const users = new Map();
+    for (const conv of data) {
+      const [creatorId, participantId] = [conv.creator, conv.participant];
+      if (!users.has(creatorId)) {
+        const userResponse = await fetch('/infos/ui', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: creatorId
+          })
         });
-        loadMessages()
-    })
+        const userData = await userResponse.json();
+        users.set(creatorId, userData);
+      }
+      if (!users.has(participantId)) {
+        const userResponse = await fetch('/infos/ui', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: participantId
+          })
+        });
+        const userData = await userResponse.json();
+        users.set(participantId, userData);
+      }
+    }
+  
+    for (const conv of data) {
+      const convElement = document.createElement('div');
+      convElement.classList.add('conversation');
+      convElement.setAttribute('id', conv._id);
+      convElement.style.animationDelay = `${data.indexOf(conv) * 0.2}s`;
+  
+      let userId, user;
+      if (localStorage.getItem('id') == conv.participant) {
+        userId = conv.creator;
+      } else {
+        userId = conv.participant;
+      }
+      user = users.get(userId);
+  
+      try {
+        const value = await getLast(conv._id);
+        console.log(value);
+        convElement.innerHTML = `
+        <img class="profile-img" src="${user.avatar || "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"}" alt="default">
+        <h2>${user.pseudo}<br><span>${value.text || 'Start a conversation'}</span></h2>
+        <div class="right-infos"><p>${value.date}</p></div>
+      `;
+    } catch {
+      convElement.innerHTML = `
+        <img class="profile-img" src="${user.avatar || "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"}" alt="default">
+        <h2>${user.pseudo}<br><span>Start a conversation</span></h2>
+      `;
+    }
+
+    document.querySelector('.conversations').appendChild(convElement);
+  }
+
+  loadMessages();
 }
+  
+
+const getLast = (parameter) => {
+    return new Promise((resolve, reject) => {
+      fetch('/messages/last', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          convId: `${parameter}`
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data != '') {
+          resolve({text: (data[0].text).substring(0, 48) , date: (data[0].createdAt).substring(11, 16)});
+        } else {
+          reject(new Error('No messages found'));
+        }
+      })
+    });
+  }
+  
+
 
 getConv()
 
@@ -65,7 +109,12 @@ function newconv() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data)
+        if (!data.error) {
+            document.querySelector('.conversations').innerHTML = ''
+            getConv()
+        } else {
+            alert(data.error)
+        }
     })
 }
 
@@ -101,10 +150,10 @@ document.querySelectorAll('.conversation').forEach(element => {
             .then(response => response.json())
             .then(data => {
                 document.querySelector('.messages').innerHTML = ''
-                data.forEach(element => {
+                data.reverse().forEach(element => {
                     let message = document.createElement('div');
                     message.innerHTML = `
-                        <p>${element.text}</p>
+                        <p title='${(element.createdAt).substring(0, 10)}'>${element.text}</p>
                     `
                     if (element.sender == localStorage.getItem('id')) {
                         message.classList.add('my-message')
@@ -121,9 +170,13 @@ document.querySelectorAll('.conversation').forEach(element => {
 })
 }
 
-
+function send() {
+    let element = document.querySelector('.send-message');
+    element.dispatchEvent(new KeyboardEvent('keyup', {'key': 'Enter'}));
+}
 let input = document.querySelector('.send-message')
 input.addEventListener('keyup', (e) => {
+    if (document.querySelector('.send-message').value == '') return
     if (e.key == 'Enter') {
         fetch('/messages/post', {
             method: 'POST',
@@ -138,7 +191,7 @@ input.addEventListener('keyup', (e) => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            document.querySelector('.send-message').value = ''
         })
     }
 })
@@ -147,4 +200,6 @@ input.addEventListener('keyup', (e) => {
 function contentClose() {
     document.querySelector('.content').classList.add('goodbye-section')
     document.querySelector('.content').classList.remove('active-section')
+    localStorage.removeItem('convId')
 }
+

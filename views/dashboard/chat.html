@@ -17,22 +17,44 @@
         <div onclick="newconv()">+</div>
     </div>
     </section>
-    <section class="content goodbye-section">
+    <section class="content">
         <div class="header">
             <img onclick="contentClose()" src="../assets/back.svg" alt="back">
             <div class='user-infos'>
                 <img style="cursor: pointer;" class="avatar" src="../assets/default.png" alt="default">
                 <h1 class="username">Username<br><span>Online</span></h1>
             </div>
-            <img src="../assets/call.svg" alt="more">
         </div>
         <div class="messages">
 
         </div>
         <div class="send">
             <input class="send-message" type="text" name="message" id="message" placeholder="Type a message">
+            <div class="send-button" onclick="send()"></div>
         </div>
     </section>
 </body>
 <script src="../dashboard/script.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('message', (data) => {
+  if (data.message.convId == localStorage.getItem('convId')) {
+    var message = document.createElement('div')
+    if (data.message.sender == localStorage.getItem('id')) {
+      message.className = 'my-message'
+    } else {
+      message.className = 'other-message'
+      let audio = new Audio('../assets/incoming.mp3')
+      if (localStorage.getItem('sound') == 'true') audio.play()
+    }
+    message.innerHTML = `<p title='${new Date().toISOString().substring(11,19)}'>${data.message.text}</p>`
+    document.querySelector('.messages').appendChild(message)
+    let div = document.querySelector(".messages");
+    div.scrollTop = div.scrollHeight;
+  }
+})
+
+
+</script>
 </html>

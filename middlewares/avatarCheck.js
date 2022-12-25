@@ -1,5 +1,5 @@
 const avatarCheck = (req, res, next) => {
-    if (!req.body.avatar) return res.status(400).json({ error: 'Please specify a value for every input' });
+    if (!req.body.avatar) next();
     const avatar = req.body.avatar;
     const avatarRegex = new RegExp(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/);
     if (!avatarRegex.test(avatar)) {

@@ -17,7 +17,7 @@ const antiSpam = (req, res, next) => {
                 const now = new Date();
                 const lastMessageDate = new Date(lastMessage.createdAt);
                 const diff = now - lastMessageDate;
-                if (diff < 200) {
+                if (diff < 0) {
                     return res.status(500).json({
                         error: 'Vous avez envoyé un message trop récemment !'
                     });
