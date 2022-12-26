@@ -10,11 +10,30 @@
 </head>
 <body class="dashboard">
     <section class="message">
-        <input class="search" type="text" name="message" id="message" placeholder="Search conversatation">
+      <div class="setting">
+        <img class="avatar-setting" src="../assets/default.png" alt="default">
+        <div class="edit">
+          <input disabled class="username-setting">
+          <div class="edit-button"></div>
+        </div>
+        <button onclick="deleteAccount()" class="delete">Delete account</button>
+        <div class="buttons-footer">
+          <button>Close</button>
+          <button style="background: #00b894; color: white;">Save</button>
+        </div>
+      </div>
+        <input onclick="newconv()" class="search" type="text" name="message" id="message" placeholder="Search conversatation">
         <div class="conversations">
         </div>
     <div class="tool">
-        <div onclick="newconv()">+</div>
+        <div class="left">
+          <img class="personnal-avatar" src="../assets/default.png" alt="default">
+          <h1 class="personnal-pseudo">Username<br><span class="email">zebi@zebi.zebi</span></h1>
+        </div>
+          <div>
+            <img onclick="loadsettings()" class="options" src="../assets/settings.svg" alt="settings">
+            <img onclick="logout()" class="options" src="../assets/logout.svg" alt="logout">
+          </div>
     </div>
     </section>
     <section class="content">

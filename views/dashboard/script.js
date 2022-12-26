@@ -2,7 +2,7 @@ async function getConv() {
 
     const response = await fetch('/conv');
     const data = await response.json();
-  
+    console.log(data);
     const users = new Map();
     for (const conv of data) {
       const [creatorId, participantId] = [conv.creator, conv.participant];
@@ -123,7 +123,9 @@ function getInfos () {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem('id', data.id)
+        document.querySelector('.personnal-avatar').src = data.avatar || "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
         localStorage.setItem('pseudo', data.pseudo)
+        document.querySelector('.personnal-pseudo').innerHTML = `${data.pseudo}<br><span class="email">${data.email}</span>`
         localStorage.setItem('email', data.email)
     })
 }
@@ -203,3 +205,35 @@ function contentClose() {
     localStorage.removeItem('convId')
 }
 
+function logout() {
+    localStorage.clear()
+    window.location.href = '/logout'
+}
+
+function loadsettings() {
+    document.querySelector('.avatar-setting').src = localStorage.getItem('avatar') || "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
+    document.querySelector('.username-setting').value = localStorage.getItem('pseudo')
+    document.querySelector('.setting').classList.add('active-section')
+}
+
+document.querySelector('.edit-button').addEventListener('click', () => {
+    document.querySelector('.username-setting').removeAttribute('disabled')
+    document.querySelector('.username-setting').focus()
+    document.querySelector('.edit-button').style.display = 'none'
+})
+
+function deleteAccount() {
+    if (confirm('Are you sure you want to delete your account ?')) {
+        fetch('/signup', {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.error) {
+                logout()
+            } else {
+                alert(data.error)
+            }
+        })
+    }
+}

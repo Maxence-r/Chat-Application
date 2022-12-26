@@ -3,6 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/users');
 const avatarCheck = require('../middlewares/avatarCheck');
+const conversation = require('../models/conversations');
+const message = require('../models/messages');
+const jwt = require('jsonwebtoken');
+const Conversation = require('../models/conversations');
 
 router.get('/', (req, res) => {
     res.render('../views/signup.ejs');
@@ -30,5 +34,35 @@ router.post('/', avatarCheck, (req, res, next) => {
         });
 });
 
+router.delete('/', (req, res) => {
+    const token = req.cookies.token;
+	if (!token) return req.logged = false, res.redirect('/');
+	const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+	const userId = decodedToken.userId;
+    Conversation.deleteMany({
+        $or: [{
+            creator: userId
+        }, {
+            participant: userId
+        }]
+    })
+    .then(() => {
+        message.deleteMany({
+            sender: userId
+        })
+        .then(() => {
+            User.deleteOne({
+                _id: userId
+            })
+            .then(() => res.status(200).json({
+                message: 'Utilisateur supprimé !'
+            }))
+            
+        })
+    })
+    .catch(error => res.status(400).json({
+        error
+    }));
+});
 
 module.exports = router;
