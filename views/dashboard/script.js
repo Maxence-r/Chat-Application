@@ -125,7 +125,7 @@ function getInfos () {
         localStorage.setItem('id', data.id)
         document.querySelector('.personnal-avatar').src = data.avatar || "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
         localStorage.setItem('pseudo', data.pseudo)
-        document.querySelector('.personnal-pseudo').innerHTML = `${data.pseudo}<br><span class="email">${data.email}</span>`
+        document.querySelector('.personnal-pseudo').innerHTML = `${data.pseudo}<br><span class="email">${(data.email).substring(0, 20)}</span>`
         localStorage.setItem('email', data.email)
     })
 }
