@@ -127,6 +127,7 @@ function getInfos () {
         localStorage.setItem('pseudo', data.pseudo)
         document.querySelector('.personnal-pseudo').innerHTML = `${data.pseudo}<br><span class="email">${(data.email).substring(0, 20)}</span>`
         localStorage.setItem('email', data.email)
+        localStorage.setItem('avatar', data.avatar)
     })
 }
 
@@ -214,6 +215,9 @@ function loadsettings() {
     document.querySelector('.avatar-setting').src = localStorage.getItem('avatar') || "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
     document.querySelector('.username-setting').value = localStorage.getItem('pseudo')
     document.querySelector('.setting').classList.add('active-section')
+    document.querySelector('.setting').classList.remove('goodbye-section')
+    document.getElementById('sound').checked = localStorage.getItem('sound') == 'true'
+    document.getElementById('sound2').checked = localStorage.getItem('sound2') == 'true'
 }
 
 document.querySelector('.edit-button').addEventListener('click', () => {
@@ -237,3 +241,61 @@ function deleteAccount() {
         })
     }
 }
+
+document.querySelector('.save').addEventListener('click', () => {
+    document.querySelector('.setting').classList.add('goodbye-section')
+    document.querySelector('.setting').classList.remove('active-section')
+    if (document.getElementById('sound').checked) {
+        localStorage.setItem('sound', true)
+    } else {
+        localStorage.setItem('sound', false)
+    }
+    if (document.getElementById('sound2').checked) {
+        localStorage.setItem('sound2', true)
+    } else {
+        localStorage.setItem('sound2', false)
+    }
+    fetch('/signup', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                pseudo: `${document.querySelector('.username-setting').value}`,
+                avatar: `${document.querySelector('.avatar-setting').src}`
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.error) {
+                localStorage.setItem('pseudo', document.querySelector('.username-setting').value)
+                document.querySelector('.username-setting').setAttribute('disabled', true)
+                document.querySelector('.edit-button').style.display = 'block'
+                getInfos()
+            } else {
+                alert(data.error)
+            }
+        })
+})
+
+document.querySelector('.cancel').addEventListener('click', () => {
+    document.querySelector('.setting').classList.add('goodbye-section')
+    document.querySelector('.setting').classList.remove('active-section')
+    document.querySelector('.username-setting').setAttribute('disabled', true)
+    document.querySelector('.edit-button').style.display = 'block'
+})
+
+document.querySelector('.avatar-setting').addEventListener('click', () => {
+    let newAvatar = prompt('Enter your avatar url')
+    if (newAvatar) {
+        document.querySelector('.avatar-setting').src = newAvatar
+    } else {
+        alert('Invalid url')
+    }
+})
+
+document.getElementById('dark').addEventListener('click', () => {
+  document.documentElement.style.setProperty('--primary', '#181731');
+  document.documentElement.style.setProperty('--secondary', '#1D1C39');
+  document.documentElement.style.setProperty('--text', '#e1e1e1');
+})

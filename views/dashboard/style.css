@@ -8,6 +8,11 @@
 	scroll-behavior: smooth;
 }
 
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
 :root {
     --primary: #FAFAFA;
     --secondary: #ffffff;
@@ -138,12 +143,13 @@ div.tool {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    bottom: 0;
     width: 100%;
     min-height: 100px;
     padding: 0 30px;
     background: var(--secondary);
     margin-top: auto;
-    z-index: 1;
     box-shadow: -20px -6px 35px 2px rgb(0 0 0 / 3%);
 }
 
@@ -228,6 +234,7 @@ div.header {
     border-radius: 10px 10px 0 0;
     margin-bottom: 5px;
     box-shadow: 0px -6px 35px 2px rgba(0, 0, 0, 0.03);
+    position: sticky;
 }
 
 div.user-infos {
@@ -278,6 +285,8 @@ div.messages {
 
 div.send {
     display: flex;
+    position: sticky;
+    bottom: 0;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -398,7 +407,7 @@ div.send-button {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 60px;
+    min-width: 60px;
     height: 60px;
     background: var(--gradient);
     background-color: var(--primary);
@@ -445,7 +454,7 @@ div.buttons-footer > button {
 
 button.delete {
     width: 90%;
-    height: 50px;
+    min-height: 50px;
     border: none;
     cursor: pointer;
     font-size: 15px;
@@ -456,6 +465,27 @@ button.delete {
     margin-top: 10px;
     color: white;
 
+}
+
+h1.setting-title {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--text);
+    margin-top: 20px;
+    align-self: flex-start;
+    margin-left: 20px;
+}
+
+div.switch {
+    align-self: flex-start;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+label {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text);
+    margin-top: 20px;
 }
 
 img.avatar-setting {
@@ -519,18 +549,22 @@ div.edit-button:hover {
 
 @keyframes goodbye-section {
     0% {
+        opacity: 1;
         transform: translateY(0%);
     }
     100% {
+        opacity: 0;
         transform: translateY(100%);
     }
 }
 
 @keyframes active-section {
     0% {
+        opacity: 0;
         transform: translateY(100%);
     }
     100% {
+        opacity: 1;
         transform: translateY(0%);
     }
 }
@@ -548,13 +582,14 @@ div.edit-button:hover {
         position: absolute;
         width: 100%;
         z-index: 1;
+        height: 100vh;
     }
     div.tool {
         border-radius: 40px 40px 0 0;
         box-shadow: 0px -6px 35px 2px rgba(0, 0, 0, 0.03);
     }
     div.send {
-        border-radius: 0 0 40px 40px;
+        border-radius: 15px 15px 0px 0px;
         box-shadow: 0px -6px 35px 2px rgba(0, 0, 0, 0.03);
     }
     div.conversations {

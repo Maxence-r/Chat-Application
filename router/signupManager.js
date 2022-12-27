@@ -65,4 +65,29 @@ router.delete('/', (req, res) => {
     }));
 });
 
+router.patch('/', avatarCheck, (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return req.logged = false, res.redirect('/');
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+    User.findOne({
+        _id: userId
+    })
+    .then(user => {
+        if (req.body.pseudo) user.pseudo = req.body.pseudo;
+        if (req.body.email) user.email = req.body.email;
+        if (req.body.avatar) user.avatar = req.body.avatar;
+        user.save()
+        .then(() => res.status(200).json({
+            message: 'Utilisateur modifié !'
+        }))
+        .catch(error => res.status(400).json({
+            error
+        }));
+    })
+    .catch(error => res.status(500).json({
+        error
+    }));
+});
+
 module.exports = router;

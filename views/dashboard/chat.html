@@ -11,15 +11,26 @@
 <body class="dashboard">
     <section class="message">
       <div class="setting">
+        <h1 class="setting-title">User settings</h1>
         <img class="avatar-setting" src="../assets/default.png" alt="default">
         <div class="edit">
           <input disabled class="username-setting">
           <div class="edit-button"></div>
         </div>
         <button onclick="deleteAccount()" class="delete">Delete account</button>
+        <h1 class="setting-title">Application settings</h1>
+          <div class="switch">
+            <input type="checkbox" id="sound">
+            <label for="sound">Incoming Notification Sound</label>
+          </div>
+          <div class="switch">
+            <input type="checkbox" id="sound2">
+            <label for="sound2">Outgoing Notification Sound</label>
+          </div>
+        <button style="background-color: rgb(6, 6, 48);" id="dark" class="delete">Toggle Dark Mode</button>
         <div class="buttons-footer">
-          <button>Close</button>
-          <button style="background: #00b894; color: white;">Save</button>
+          <button class="cancel">Close</button>
+          <button class="save" style="background: #00b894; color: white;">Save</button>
         </div>
       </div>
         <input onclick="newconv()" class="search" type="text" name="message" id="message" placeholder="Search conversatation">
@@ -28,7 +39,7 @@
     <div class="tool">
         <div class="left">
           <img class="personnal-avatar" src="../assets/default.png" alt="default">
-          <h1 class="personnal-pseudo">Username<br><span class="email">zebi@zebi.zebi</span></h1>
+          <h1 class="personnal-pseudo">Username<br><span class="email">email@company.com</span></h1>
         </div>
           <div>
             <img onclick="loadsettings()" class="options" src="../assets/settings.svg" alt="settings">
@@ -62,6 +73,8 @@
     var message = document.createElement('div')
     if (data.message.sender == localStorage.getItem('id')) {
       message.className = 'my-message'
+      let audio = new Audio('../assets/outgoing.mp3')
+      if (localStorage.getItem('sound2') == 'true') audio.play()
     } else {
       message.className = 'other-message'
       let audio = new Audio('../assets/incoming.mp3')

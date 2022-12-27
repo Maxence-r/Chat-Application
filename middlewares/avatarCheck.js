@@ -5,7 +5,7 @@ const avatarCheck = (req, res, next) => {
     }
 
     const avatar = req.body.avatar;
-    const avatarRegex = new RegExp(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/);
+    const avatarRegex = new RegExp(/(https?:\/\/.*\.(?:png|jpg))/i);
     if (!avatarRegex.test(avatar)) {
         console.log("The avatar url isn't valid");
         return res.status(400).json({
@@ -13,12 +13,13 @@ const avatarCheck = (req, res, next) => {
         });
     }
 
-    fetch(`${req.body.avatar}`, { method: "HEAD" })
+    fetch(avatar, { method: "HEAD" })
         .then((response) => {
             if (response.ok) {
                 console.log("This avatar can be reached");
                 next();
             } else {
+                console.log(response.status)
                 console.log("This avatar cannot be reached");
                 return res.status(400).json({ error: "This avatar cannot be reached" });
             }
